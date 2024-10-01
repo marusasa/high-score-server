@@ -22,7 +22,9 @@ The server is currently running at [https://highscore.sasagu.com](https://highsc
 
 # How to deploy
 
-- Install gcloud CLI, and set it up with your account
+- Install gcloud CLI and initialize your environment:
+
+	gcloud init
 
 - Edit pom.xml, update app engine config:
 	
