@@ -24,10 +24,13 @@ The server is currently running at [https://highscore.sasagu.com](https://highsc
 
 - Install gcloud CLI and initialize your environment:
 
+```
 	gcloud init
+```
 
 - Edit pom.xml, update app engine config:
 	
+```
 	<configuration>
 		<version>1-0-0</version>
 		<!-- 
@@ -37,15 +40,20 @@ The server is currently running at [https://highscore.sasagu.com](https://highsc
 		-->
 		<projectId></projectId>
 	</configuration>	
-	
+```
+
 - Run this Maven command/goal to deploy it to Google App Engine: 	
 
+```
 	clean package appengine:deploy
+```
 	
 - Setup Cloud Scheduler (App Engine Cron Jobs) by deploying src/main/appengine/cron.yaml.
 Run this gcloud command:
 
+```
 	gcloud app deploy cron.yaml
+```
 	
 # Things to consider
 
