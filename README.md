@@ -6,6 +6,10 @@ It lets you keep track of high score data using HTTP REST API's.
 
 The server is currently running at [https://highscore.sasagu.com](https://highscore.sasagu.com).
 
+# Highlight
+
+- Cost effective solution designed to run on Google Cloud platform.
+
 # Technology Stack
 
 - Java 21
