@@ -1,0 +1,15 @@
+cron:
+- description: "high score clear - daily"
+  url: /cronjob/cleardaily
+  schedule: every day 01:00
+  timezone: America/Los_Angeles
+  
+- description: "high score clear - weekly"
+  url: /cronjob/clearweekly
+  schedule: every monday 01:05
+  timezone: America/Los_Angeles
+  
+- description: "high score clear - monthly"
+  url: /cronjob/clearmonthly
+  schedule: 1 of month 01:10
+  timezone: America/Los_Angeles

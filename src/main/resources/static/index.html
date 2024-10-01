@@ -1,0 +1,209 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+		<!-- CSS only -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+		<link href="site.css" rel="stylesheet">		
+	</head>
+	<body>
+		<div class="container">
+		<h1>High Score API Free</h1>
+		<p>A simple free API service. It allows you to save/retrieve
+			Daily, Weekly and Monthly high scores. It is intended for adding high
+			score list to a web game, but it could be used for other purposes. It
+			stores 10 high scores.</p>
+		<p>
+			Implementation examples: <a href="https://sasagu.itch.io/snake-with-high-score"
+				target="_blank">Snake</a> - <a
+				href="https://sasagu.itch.io/onion-man-and-his-stars" target="_blank">Onion
+				Man and His Stars</a>.
+		</p>
+		
+		<p>This server is an open source project: <a href="">TBD</a></p>
+		<h2>How to use it:</h2>
+		<p>Account creation and high score list creation is all done by
+			calling HTTP APIs.</p>
+		<h3>1. Create Account</h3>		
+		<p>In order to user this service and to create an account, you must agree to the following user agreement.</p>		
+<pre>
+User Agreement:
+User agrees that this service is provided as is without any guarantee.
+User agrees that this service will be used for hobby projects only.
+In no event shall the service owner be liable for any damages arising out of the use or inability to use the service.				
+</pre>	
+		
+		<p>If you agree to the above user agreement, type 'I agree to the user agreement' in the 'agreement' field.</p>
+		<p>'name' and 'email' is optional.</p>
+		<pre>
+URL: https://highscore.sasagu.com/api/v1/create-account
+HTTP Method: POST
+HTTP Header: 'Content-Type: application/json' 
+HTTP Body:
+{
+	"name": "YOUR FULL NAME",
+	"email": "your@emailaddress",
+	"agreement": ""
+}
+</pre>
+			<p>Result:</p>
+<pre>
+{
+    "errors": [],
+    "success": true,
+    "message": "Save the account_id. Use it to create a high score table. Use the same account_id when creating multiple high score tables.",
+    "account_id": "cbd8b9f8-4ef4-4e4f-bc70-1e4bf9a1541d"
+}
+</pre>
+		
+			<p>account_id must be kept private. Do not share it with anyone.</p>
+									
+			<h3>3. Create High Score Table</h3>
+			<p>Use your account_id to create a high score table.</p>
+			<p>For 'type' use one of the following:</p>
+			<table class="table table-dark table-bordered">
+				<thead>
+					<tr>
+						<th>Type</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>D</td>
+						<td>Daily.<br>Data gets cleared daily at 1AM Pacific Standard Time.</td>
+					</tr>
+					<tr>
+						<td>W</td>
+						<td>Weekly.<br>Data gets cleared weekly at every Monday 1AM Pacific Standard Time.</td>
+					</tr>
+					<tr>
+						<td>M</td>
+						<td>Monthly.<br>Data gets cleared monthly at 1st day of Month at 1AM Pacific Standard Time.</td>
+					</tr>
+				</tbody>
+			</table>		
+			<p>Use this to create a high score table record.</p>	
+<pre>
+URL: https://highscore.sasagu.com/api/v1/create-highscore
+HTTP Method: POST
+HTTP Header: 'Content-Type: application/json' 
+HTTP Body:
+{
+    "account_id": "cbd8b9f8-4ef4-4e4f-bc70-1e4bf9a1541d",
+    "name": "Sample High Score - Weekly",
+    "type": "W"
+}
+</pre>
+			<p>Result:</p>
+<pre>
+{
+    "errors": [],
+    "success": true,
+    "message": "Save the highscore_id. Use it to add/get/clear scores.",
+    "highscore_id": "c60bf258-3103-42eb-8800-703894d759e2",
+    "account_id": "cbd8b9f8-4ef4-4e4f-bc70-1e4bf9a1541d"
+}
+</pre>
+			<p>'highscore_id' will be used in your program when saving/displaying high scores.</p>
+			
+			<h3>3. High Score Management</h3>
+			
+			<p>In most cases, the easiest way to integrate the APIs into your game is to use a JavaScript component 
+			<a href="https://github.com/marusasa/ssg-high-score" target="_blank">ssg-high-score.js</a>.
+			This is a component used by the reference projects mentioned above. View the 
+			<a href="https://github.com/marusasa/ssg-high-score" target="_blank">github page</a> to lean how to use it.</p>
+			
+			<h3>4. High Score API</h3>
+			
+			<p>If you choose not to use high-socre-js component, you can use the following api's to update the high score boards.</p>
+			
+			<h4>Scores</h4>
+			
+			<p>Use this to get scores.</p>
+<pre>
+URL: https://highscore.sasagu.com/api/v1/scores/[highscore_id]
+HTTP Method: GET
+</pre>
+			<p>Result:</p>
+<pre>
+{
+    "errors": [],
+    "success": true,
+    "scores": [
+        {
+            "score": 50,
+            "name": "JOHN"
+        },
+        {
+            "score": 10,
+            "name": "Test"
+        }
+    ],
+    "score_to_keep": 10,
+    "bottom_score": 0,		//This scores the lowest score of the list. 0 indicates any score can be added.
+    "top_score": 50,		//This indicates the highest score.
+    "score_count": 2,		//count of scores in the list.
+    "game_name": "Sample High Score - Weekly"
+}
+</pre>
+			<h4>Add Score</h4>
+			<p>Use this to add a new high score to the board.</p>
+<pre>
+URL: https://highscore.sasagu.com/api/v1/add-score
+HTTP Method: POST
+HTTP Header: 'Content-Type: application/json' 
+HTTP Body:
+{
+    "highscore_id": "6f70f9fd-c992-4be9-b70b-82b45e5c0bb8",
+    "name": "JOHN",
+    "score": 50
+}
+</pre>
+			<p>Result:</p>
+<pre>
+{
+    "errors": [],
+    "success": true,
+    "scores": [				//the result includes the updated high score list.
+        {
+            "score": 50,
+            "name": "JOHN"
+        },
+        {
+            "score": 10,
+            "name": "MICHAEL"
+        }
+    ],
+    "score_to_keep": 10,
+    "bottom_score": 0,
+    "top_score": 50,
+    "score_count": 2,
+    "game_name": "Sample High Score - Weekly"
+}
+</pre>
+			<h4>Clear Board</h4>
+			<p>Use this only when you want to manually clear the scores.</p>
+<pre>
+URL: https://highscore.sasagu.com/api/v1/clear-scores
+HTTP Method: POST
+HTTP Header: 'Content-Type: application/json' 
+HTTP Body:
+{
+    "account_id" : "a2809085-39a6-4d42-9762-7efda03a0530",
+    "highscore_id": "6f70f9fd-c992-4be9-b70b-82b45e5c0bb8"
+}
+</pre>
+			<p>Result:</p>
+<pre>
+{
+    "errors": [],
+    "success": true
+}
+</pre>
+		</div>	
+	</body>
+</html>
