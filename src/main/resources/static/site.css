@@ -47,3 +47,7 @@ h3 {
 	margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.github-fork-ribbon:before { 
+	background-color: #000000; 
+}
